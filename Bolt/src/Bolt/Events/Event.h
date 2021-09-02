@@ -1,6 +1,8 @@
 #pragma once
+
 #include <functional>;
 #include <string>;
+#include <sstream>;
 
 #include "Bolt/Core.h";
 
@@ -37,7 +39,7 @@ namespace Bolt {
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
-		virtual std::string ToString() const { GetName(); };
+		virtual std::string ToString() const { return GetName(); };
 
 		inline bool IsInCategory(EventCategory category) {
 			return GetCategoryFlags() & category;

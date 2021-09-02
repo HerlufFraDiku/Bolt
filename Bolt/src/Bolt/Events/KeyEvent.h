@@ -1,5 +1,5 @@
 #pragma once
-#include "Event.h";
+#include "Bolt/Events/Event.h";
 #include <sstream>;
 
 namespace Bolt {

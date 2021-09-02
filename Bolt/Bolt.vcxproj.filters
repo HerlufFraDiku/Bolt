@@ -19,15 +19,21 @@
     <ClInclude Include="src\Bolt\Entrypoint.h">
       <Filter>Bolt</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bolt\Events\ApplicationEvent.h">
+      <Filter>Bolt\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Bolt\Events\Event.h">
+      <Filter>Bolt\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bolt\Events\KeyEvent.h">
+      <Filter>Bolt\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bolt\Events\MouseEvent.h">
       <Filter>Bolt\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\Bolt\Log.h">
       <Filter>Bolt</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bolt\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\Bolt\Events\KeyEvent.h" />
-    <ClInclude Include="src\Bolt\Events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bolt\Application.cpp">

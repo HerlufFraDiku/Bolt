@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Core.h";
-#include "Events/Event.h"
+#include "Bolt/Core.h";
+#include "Bolt/Events/Event.h"
 
 namespace Bolt {
 	class BOLT_API Application {
