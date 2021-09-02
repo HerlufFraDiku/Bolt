@@ -1,0 +1,3 @@
+[submodule "Bolt/vendor/spdlog"]
+	path = Bolt/vendor/spdlog
+	url = https://github.com/gabime/spdlog
