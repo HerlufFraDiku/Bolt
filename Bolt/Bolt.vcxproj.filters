@@ -7,6 +7,12 @@
     <Filter Include="Bolt\Events">
       <UniqueIdentifier>{3A3EAF0B-A6F3-2701-2FE8-21D89B9C1E05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bolt.h" />
@@ -31,16 +37,39 @@
     <ClInclude Include="src\Bolt\Events\MouseEvent.h">
       <Filter>Bolt\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bolt\Layer.h">
+      <Filter>Bolt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bolt\LayerStack.h">
+      <Filter>Bolt</Filter>
+    </ClInclude>
     <ClInclude Include="src\Bolt\Log.h">
       <Filter>Bolt</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bolt\Window.h">
+      <Filter>Bolt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\blpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bolt\Application.cpp">
       <Filter>Bolt</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bolt\Layer.cpp">
+      <Filter>Bolt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bolt\LayerStack.cpp">
+      <Filter>Bolt</Filter>
+    </ClCompile>
     <ClCompile Include="src\Bolt\Log.cpp">
       <Filter>Bolt</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\blpch.cpp" />
   </ItemGroup>
 </Project>

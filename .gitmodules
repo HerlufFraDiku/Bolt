@@ -1,3 +1,6 @@
 [submodule "Bolt/vendor/spdlog"]
 	path = Bolt/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Bolt/vendor/GLFW"]
+	path = Bolt/vendor/GLFW
+	url = https://github.com/TheCherno/glfw

@@ -1,6 +1,5 @@
 #pragma once
 #include "Bolt/Events/Event.h";
-#include <sstream>;
 
 namespace Bolt {
 	class BOLT_API WindowResizeEvent : public Event {
@@ -26,7 +25,7 @@ namespace Bolt {
 	public:
 		EVENT_CLASS_TYPE(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
-		WindowCloseEvent(){}
+		WindowCloseEvent() {}
 	};
 
 	class BOLT_API AppTickEvent : public Event {

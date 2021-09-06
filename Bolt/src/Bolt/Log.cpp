@@ -1,3 +1,4 @@
+#include "blpch.h"
 #include "Bolt/Log.h"
 
 namespace Bolt {

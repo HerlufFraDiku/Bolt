@@ -1,9 +1,5 @@
 #pragma once
-
-#include <functional>;
-#include <string>;
-#include <sstream>;
-
+#include "blpch.h";
 #include "Bolt/Core.h";
 
 namespace Bolt {
@@ -45,8 +41,7 @@ namespace Bolt {
 			return GetCategoryFlags() & category;
 		};
 
-	private:
-		bool m_Handeled = false;
+		bool Handled = false;
 	};
 
 	class EventDispatcher {
@@ -58,10 +53,10 @@ namespace Bolt {
 		template<typename T>
 		bool Dispatch(EventFn<T> func) {
 			if (m_Event.GetEventType() == T::GetStaticType()) {
-				m_Event.m_Handeled = func(*(T*)&m_Event);
-				return true
+				m_Event.Handled = func(*(T*)&m_Event);
+				return true;
 			}
-			return false
+			return false;
 		}
 
 	private:

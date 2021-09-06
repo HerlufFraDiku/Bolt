@@ -1,6 +1,5 @@
 #pragma once
 #include "Bolt/Events/Event.h";
-#include <sstream>;
 
 namespace Bolt {
 	class BOLT_API KeyEvent : public Event {
