@@ -5,13 +5,11 @@
 namespace Bolt {
 	class Shader {
 	public:
-		Shader(std::string& vertexSrc, std::string& fragmentSrc);
-		~Shader();
+		virtual ~Shader() {};
 
-		void Bind() const;
-		void Unbind() const;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
-	private:
-		uint32_t m_RendererID;
+		static Shader* Create(std::string& vertexSrc, std::string& fragmentSrc);
 	};
 }
