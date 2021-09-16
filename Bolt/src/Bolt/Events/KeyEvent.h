@@ -39,4 +39,16 @@ namespace Bolt {
 			return ss.str();
 		}
 	};
+
+	class BOLT_API KeyTypedEvent : public KeyEvent {
+	public:
+		EVENT_CLASS_TYPE(KeyTyped)
+		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
+
+		std::string ToString() const override {
+			std::stringstream ss;
+			ss << "KeyTypedEvent(" << m_KeyCode << ")";
+			return ss.str();
+		}
+	};
 }

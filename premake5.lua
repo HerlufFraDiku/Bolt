@@ -13,13 +13,17 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Bolt/vendor/GLFW/include"
 IncludeDir["Glad"] = "Bolt/vendor/Glad/include"
+IncludeDir["ImGui"] = "Bolt/vendor/imgui"
+IncludeDir["glm"] = "Bolt/vendor/glm"
 
 include "Bolt/vendor/GLFW"
 include "Bolt/vendor/Glad"
+include "Bolt/vendor/imgui"
 
 project "Bolt"
 	location "Bolt"
 	kind "SharedLib"
+	staticruntime "off"
 	language "C++"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -31,24 +35,28 @@ project "Bolt"
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs {
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
 		"GLFW",
 		"Glad",
+		"ImGui",
 		"opengl32.lib"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines {
@@ -63,21 +71,22 @@ project "Bolt"
 
 	filter "configurations:Debug"
 		defines "BL_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "BL_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "BL_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
 	location "Sandbox"
+	staticruntime "off"
 	kind "ConsoleApp"
 	language "C++"
 
@@ -93,12 +102,13 @@ project "Sandbox"
 
 	includedirs {
 		"Bolt/vendor/spdlog/include",
+		"%{IncludeDir.glm}",
+		"Bolt/vendor",
 		"Bolt/src"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines {
@@ -107,15 +117,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "BL_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "BL_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "BL_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"

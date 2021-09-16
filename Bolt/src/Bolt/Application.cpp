@@ -5,9 +5,17 @@
 #include <Glad/glad.h>
 
 namespace Bolt {
+
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application() {
+		BL_CORE_ASSERT(!s_Instance, "Application already exists");
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_FN(Application::OnEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 
 		unsigned int id;
 		glGenVertexArrays(1, &id);
@@ -26,12 +34,18 @@ namespace Bolt {
 				layer->OnUpdate();
 			}
 
+			m_ImGuiLayer->Begin();
+			for (Layer* layer : m_LayerStack) {
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
 		}
 	}
 
 	void Application::OnEvent(Event& event) {
-		BL_CORE_TRACE("{0}", event);
+		// BL_CORE_TRACE("{0}", event);
 
 		EventDispatcher dispatcher(event);
 		// Bind handler for WindowCloseEvent
@@ -53,10 +67,12 @@ namespace Bolt {
 
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay) {
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
 

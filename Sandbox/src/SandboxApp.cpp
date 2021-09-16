@@ -1,15 +1,30 @@
-#include <Bolt.h>;
+#include <Bolt.h>
+
+#include "imgui/imgui.h"
 
 class ExampleLayer : public Bolt::Layer {
 public:
-	ExampleLayer() : Layer("Example layer") {}
+	ExampleLayer() : Layer("Example") { }
 
 	void OnUpdate() override {
-		BL_INFO("ExampleLayer::OnUpdate");
+		if (Bolt::Input::IsKeyPressed(Bolt::Key::Tab))
+			BL_TRACE("Tab key is pressed (poll)!");
+	}
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void OnEvent(Bolt::Event& event) override {
-		BL_TRACE("{0}", event);
+		if (event.GetEventType() == Bolt::EventType::KeyPressed)
+		{
+			 Bolt::KeyPressedEvent& e = (Bolt::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == Bolt::Key::Tab)
+				BL_TRACE("Tab key is pressed (event)!");
+			BL_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 
@@ -19,7 +34,7 @@ public:
 		PushLayer(new ExampleLayer());
 	}
 
-	~Sandbox() {}
+	~Sandbox() { }
 };
 
 Bolt::Application* Bolt::CreateApplication() {

@@ -3,7 +3,7 @@
 
 namespace Bolt {
 	LayerStack::LayerStack() {
-		m_LayerInsert = m_layers.begin();
+	
 	}
 
 	LayerStack::~LayerStack() {
@@ -13,7 +13,8 @@ namespace Bolt {
 	}
 
 	void LayerStack::PushLayer(Layer* layer) {
-		m_LayerInsert = m_layers.emplace(m_LayerInsert, layer);
+		m_layers.emplace(m_layers.begin() + m_LayerInsertIndex, layer);
+		m_LayerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay) {
@@ -24,7 +25,7 @@ namespace Bolt {
 		auto it = std::find(m_layers.begin(), m_layers.end(), layer);
 		if (it != m_layers.end()) {
 			m_layers.erase(it);
-			m_LayerInsert--;
+			m_LayerInsertIndex--;
 		}
 	}
 
