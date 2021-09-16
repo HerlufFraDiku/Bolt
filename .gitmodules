@@ -4,3 +4,9 @@
 [submodule "Bolt/vendor/GLFW"]
 	path = Bolt/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+[submodule "Bolt/vendor/imgui"]
+	path = Bolt/vendor/imgui
+	url = https://github.com/TheCherno/imgui
+[submodule "Bolt/vendor/glm"]
+	path = Bolt/vendor/glm
+	url = https://github.com/g-truc/glm
