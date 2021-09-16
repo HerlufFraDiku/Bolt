@@ -5,7 +5,7 @@
 #include "Bolt/Events/KeyEvent.h"
 #include "Bolt/Events/MouseEvent.h"
 
-#include <Glad/glad.h>
+#include "Platform/OpenGL/OpenGlContext.h"
 
 namespace Bolt {
 	static bool s_GLFWInitialized = false;
@@ -42,10 +42,8 @@ namespace Bolt {
 		// TODO: glfwTerminate on system shutdown
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-
-		int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		BL_CORE_ASSERT(gladStatus, "Failed to initialize Glad!");
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
@@ -127,7 +125,7 @@ namespace Bolt {
 
 	void WindowsWindow::OnUpdate() {
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled) {

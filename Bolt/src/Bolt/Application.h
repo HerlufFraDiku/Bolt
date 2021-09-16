@@ -1,14 +1,16 @@
 #pragma once
 
-#include "Bolt/Core.h";
+#include "Bolt/Core.h"
 #include "Bolt/Window.h"
 #include "Bolt/LayerStack.h"
 #include "Bolt/Events/Event.h"
 #include "Bolt/Events/ApplicationEvent.h"
 #include "Bolt/ImGui/ImGuiLayer.h"
 
+#include "Bolt/Renderer/Shader.h"
+
 namespace Bolt {
-	class BOLT_API Application {
+	class Application {
 		public:
 		Application();
 		virtual ~Application();
@@ -26,9 +28,13 @@ namespace Bolt {
 
 		static Application* s_Instance;
 		std::unique_ptr<Window> m_Window;
+
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		ImGuiLayer* m_ImGuiLayer;
+
+		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		std::unique_ptr<Shader> m_Shader;
 	};
 
 	// To be defined in client

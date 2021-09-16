@@ -1,9 +1,9 @@
 #pragma once
-#include "Bolt/Events/Event.h";
+#include "Bolt/Events/Event.h"
 
 namespace Bolt {
 
-	class BOLT_API MouseMovedEvent : public Event {
+	class MouseMovedEvent : public Event {
 	public:
 		EVENT_CLASS_TYPE(MouseMoved)
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouse)
@@ -22,7 +22,7 @@ namespace Bolt {
 		float m_MouseX, m_MouseY;
 	};
 
-	class BOLT_API MouseScrolledEvent : public Event {
+	class MouseScrolledEvent : public Event {
 	public:
 		EVENT_CLASS_TYPE(MouseScrolled)
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouse)
@@ -41,7 +41,7 @@ namespace Bolt {
 		float m_OffsetX, m_OffsetY;
 	};
 
-	class BOLT_API MouseButtonEvent : public Event {
+	class MouseButtonEvent : public Event {
 	public:
 		inline int GetButton() { return m_Button; }
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryMouse | EventCategoryMouseButton)
@@ -51,7 +51,7 @@ namespace Bolt {
 		int m_Button;
 	};
 
-	class BOLT_API MouseButtonPressedEvent : public MouseButtonEvent {
+	class MouseButtonPressedEvent : public MouseButtonEvent {
 	public:
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
@@ -63,7 +63,7 @@ namespace Bolt {
 		}
 	};
 
-	class BOLT_API MouseButtonReleasedEvent: public MouseButtonEvent {
+	class MouseButtonReleasedEvent: public MouseButtonEvent {
 	public:
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}

@@ -22,9 +22,10 @@ include "Bolt/vendor/imgui"
 
 project "Bolt"
 	location "Bolt"
-	kind "SharedLib"
-	staticruntime "off"
+	kind "StaticLib"
+	staticruntime "on"
 	language "C++"
+	cppdialect "C++17"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -55,8 +56,11 @@ project "Bolt"
 		"opengl32.lib"
 	}
 
+	defines {
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 		defines {
@@ -65,30 +69,28 @@ project "Bolt"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-
 	filter "configurations:Debug"
 		defines "BL_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "BL_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BL_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
-	staticruntime "off"
 	kind "ConsoleApp"
+	staticruntime "on"
 	language "C++"
+	cppdialect "C++17"
+
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -108,9 +110,7 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
-
 		defines {
 			"BL_PLATFORM_WINDOWS"
 		}
@@ -118,14 +118,14 @@ project "Sandbox"
 	filter "configurations:Debug"
 		defines "BL_DEBUG"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "BL_RELEASE"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "BL_DIST"
 		runtime "Release"
-		optimize "On"
+		optimize "on"

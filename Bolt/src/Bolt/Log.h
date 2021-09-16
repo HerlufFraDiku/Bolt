@@ -1,11 +1,11 @@
 #pragma once
-#include "Bolt/Core.h";
-#include "spdlog/spdlog.h";
-#include "spdlog/fmt/ostr.h";
+#include "Bolt/Core.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/fmt/ostr.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace Bolt {
-	class BOLT_API Log {
+	class Log {
 	public:
 		static void Init();
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }

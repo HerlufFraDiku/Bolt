@@ -1,6 +1,6 @@
 #pragma once
-#include "blpch.h";
-#include "Bolt/Core.h";
+#include "blpch.h"
+#include "Bolt/Core.h"
 
 namespace Bolt {
 	// Events in Bolt are currently blocking. This means that once an event occurs
@@ -29,7 +29,7 @@ namespace Bolt {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class BOLT_API Event {
+	class Event {
 		friend class EventDispatcher;
 	public:
 		virtual EventType GetEventType() const = 0;

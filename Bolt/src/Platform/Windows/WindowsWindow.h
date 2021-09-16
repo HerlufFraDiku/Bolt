@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Bolt/Window.h"
+#include "Bolt/Renderer/GraphicsContext.h"
+
 #include <GLFW/glfw3.h>
 
 namespace Bolt {
@@ -22,8 +24,9 @@ namespace Bolt {
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
-
+	private:
 		GLFWwindow* m_Window;
+		GraphicsContext* m_Context;
 
 		struct WindowData {
 			std::string Title;

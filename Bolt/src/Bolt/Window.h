@@ -1,8 +1,8 @@
 #pragma once
 
-#include "blpch.h";
-#include "Bolt/Core.h";
-#include "Bolt/Events/Event.h";
+#include "blpch.h"
+#include "Bolt/Core.h"
+#include "Bolt/Events/Event.h"
 
 namespace Bolt {
 	struct WindowProps {
@@ -18,7 +18,7 @@ namespace Bolt {
 	};
 
 	// Interface for a platform specific window
-	class BOLT_API Window {
+	class Window {
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 

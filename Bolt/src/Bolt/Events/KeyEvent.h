@@ -1,8 +1,8 @@
 #pragma once
-#include "Bolt/Events/Event.h";
+#include "Bolt/Events/Event.h"
 
 namespace Bolt {
-	class BOLT_API KeyEvent : public Event {
+	class KeyEvent : public Event {
 	public:
 		inline int GetKeyCode() { return m_KeyCode; }
 		EVENT_CLASS_CATEGORY(EventCategoryInput | EventCategoryKeyboard)
@@ -12,7 +12,7 @@ namespace Bolt {
 		int m_KeyCode;
 	};
 
-	class BOLT_API KeyPressedEvent : public KeyEvent {
+	class KeyPressedEvent : public KeyEvent {
 	public:
 		EVENT_CLASS_TYPE(KeyPressed)
 		KeyPressedEvent(int keycode, int repeatCount): KeyEvent(keycode), m_RepeatCount(repeatCount) {}
@@ -28,7 +28,7 @@ namespace Bolt {
 		int m_RepeatCount;
 	};
 
-	class BOLT_API KeyReleasedEvent : public KeyEvent {
+	class KeyReleasedEvent : public KeyEvent {
 	public:
 		EVENT_CLASS_TYPE(KeyReleased)
 		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
@@ -40,7 +40,7 @@ namespace Bolt {
 		}
 	};
 
-	class BOLT_API KeyTypedEvent : public KeyEvent {
+	class KeyTypedEvent : public KeyEvent {
 	public:
 		EVENT_CLASS_TYPE(KeyTyped)
 		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}

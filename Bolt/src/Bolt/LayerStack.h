@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace Bolt {
-	class BOLT_API LayerStack {
+	class LayerStack {
 	public:
 		LayerStack();
 		~LayerStack();
