@@ -7,8 +7,9 @@
 namespace Bolt {
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size) {
 		switch (Renderer::GetApi()) {
-			case RendererAPI::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-			case RendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
+			case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+
 		}
 
 		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");
@@ -16,8 +17,8 @@ namespace Bolt {
 
 	IndexBuffer* IndexBuffer::Create(uint32_t* indicies, uint32_t count) {
 		switch (Renderer::GetApi()) {
-			case RendererAPI::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-			case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indicies, count);
+			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
+			case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indicies, count);
 		}
 
 		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");

@@ -1,15 +1,13 @@
 #include "blpch.h"
-#include "Shader.h"
-#include "Renderer.h"
-
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "Bolt/Renderer/VertexArray.h"
+#include "Bolt/Renderer/Renderer.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 namespace Bolt {
-	Shader* Shader::Create(std::string& vertexSrc, std::string& fragmentSrc)
-	{
+	VertexArray* VertexArray::Create() {
 		switch (Renderer::GetApi()) {
 			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-			case RendererAPI::API::OpenGL: return new OpenGLShader(vertexSrc, fragmentSrc);
+			case RendererAPI::API::OpenGL: return new OpenGLVertexArray();
 		}
 
 		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");

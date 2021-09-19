@@ -7,6 +7,12 @@
 #include "Bolt/KeyCodes.h"
 #include "Bolt/MouseCodes.h"
 
+#include "Bolt/Renderer/Renderer.h"
+#include "Bolt/Renderer/RenderCommand.h"
+#include "Bolt/Renderer/VertexArray.h"
+#include "Bolt/Renderer/Buffer.h"
+#include "Bolt/Renderer/Shader.h"
+
 #include "Bolt/ImGui/ImGuiLayer.h"
 
 // ------ ENTRYPOINT --------
