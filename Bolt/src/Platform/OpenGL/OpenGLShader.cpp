@@ -2,6 +2,7 @@
 #include "OpenGLShader.h"
 
 #include <Glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Bolt {
 	OpenGLShader::OpenGLShader(std::string& vertexSrc, std::string& fragmentSrc) {
@@ -115,5 +116,12 @@ namespace Bolt {
 
 	void OpenGLShader::Unbind() const {
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const {
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
+
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

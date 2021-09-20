@@ -12,6 +12,7 @@
 #include "Bolt/Renderer/VertexArray.h"
 #include "Bolt/Renderer/Buffer.h"
 #include "Bolt/Renderer/Shader.h"
+#include "Bolt/Renderer/OrthographicCamera.h"
 
 #include "Bolt/ImGui/ImGuiLayer.h"
 

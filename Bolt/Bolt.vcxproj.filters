@@ -1356,6 +1356,7 @@
     <ClInclude Include="src\Bolt\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Bolt\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Bolt\Renderer\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bolt\Application.cpp">
@@ -1396,5 +1397,6 @@
     <ClCompile Include="src\Bolt\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Bolt\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Bolt\Renderer\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>
