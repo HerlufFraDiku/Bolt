@@ -15,6 +15,7 @@ IncludeDir["GLFW"] = "Bolt/vendor/GLFW/include"
 IncludeDir["Glad"] = "Bolt/vendor/Glad/include"
 IncludeDir["ImGui"] = "Bolt/vendor/imgui"
 IncludeDir["glm"] = "Bolt/vendor/glm"
+IncludeDir["stb_image"] = "Bolt/vendor/stb_image"
 
 include "Bolt/vendor/GLFW"
 include "Bolt/vendor/Glad"
@@ -37,7 +38,9 @@ project "Bolt"
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",		
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp"
 	}
 
 	includedirs {
@@ -46,7 +49,8 @@ project "Bolt"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links {

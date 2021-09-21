@@ -1,100 +1,68 @@
 #include <Bolt.h>
 #include "imgui/imgui.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-std::string vertexSrc = R"(
-			#version 330 core
-			
-			uniform mat4 u_ViewProjection;
+#include "Platform/OpenGL/OpenGLShader.h"
 
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			out vec4 v_Color;
-
-			void main() {
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-				v_Color = a_Color;
-			}
-		)";
-
-std::string fragmentSrc = R"(
-			#version 330 core
-			
-			in vec3 v_Position;
-			in vec4 v_Color;
-
-			layout(location = 0) out vec4 o_Color;
-
-			void main() {
-				o_Color = v_Color;
-			}
-		)";
-
-float verticies[3 * 7] = {
-	-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-	 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
+float verticies[4 * 5] = {
+	-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+	-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 };
 
-uint32_t indicies[3] = { 0, 1, 2 };
+uint32_t indicies[6] = { 0, 1, 2, 2, 3, 0 };
 
 class ExampleLayer : public Bolt::Layer {
+private:
+	Bolt::Ref<Bolt::VertexArray> m_VA;
+	Bolt::Ref<Bolt::Shader> m_Shader;
+	Bolt::Ref<Bolt::Texture2D> m_CheckerTex, m_HectorTex;
+	Bolt::OrthographicCamera m_Camera;
+
 public:
-	ExampleLayer() : Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) {
-		// Create Shader
-		m_Shader.reset(Bolt::Shader::Create(vertexSrc, fragmentSrc));
+	ExampleLayer() 
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) 
+	{
+		// Load assets
+		m_Shader = Bolt::Shader::Create("assets/shaders/TextureShader.glsl");
+		m_CheckerTex = Bolt::Texture2D::Create("assets/textures/checkerboard.png");
+		m_HectorTex = Bolt::Texture2D::Create("assets/textures/hector-large.png");
 
-		// Create vertex buffer to hold verticies
-		std::shared_ptr<Bolt::VertexBuffer> VB;
-		VB.reset(Bolt::VertexBuffer::Create(verticies, sizeof(verticies)));
-
-		// Describe the layout of each element so the shader can use them
+		// Create vertex buffer to hold verticies and describe the attribute layout so the shader can use them
+		Bolt::Ref<Bolt::VertexBuffer> VB = Bolt::VertexBuffer::Create(verticies, sizeof(verticies));
 		VB->SetLayout({
 			{ Bolt::ShaderElementType::Float3, "a_Position" },
-			{ Bolt::ShaderElementType::Float4, "a_Color" }
+			{ Bolt::ShaderElementType::Float2, "a_TexCoord" }
 		});
 
 		// Create index buffer to tell renderer which verticies to draw
-		std::shared_ptr<Bolt::IndexBuffer> IB;
-		IB.reset(Bolt::IndexBuffer::Create(indicies, 3));
+		Bolt::Ref<Bolt::IndexBuffer> IB = Bolt::IndexBuffer::Create(indicies, 6);
 
 		// Create vertex array to hold vertex and index buffers
-		m_VA.reset(Bolt::VertexArray::Create());
+		m_VA = Bolt::VertexArray::Create();
 		m_VA->AddVertexBuffer(VB);
 		m_VA->SetIndexBuffer(IB);
 	}
 
-	void OnUpdate() override {
-		MoveCamera();
+	void OnUpdate(Bolt::Timestep dt) override {
+		glm::mat4 transform = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
 
 		Bolt::RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 		Bolt::RenderCommand::Clear();
 
-		// Draw triangle
 		Bolt::Renderer::BeginScene(m_Camera);
+
 		m_Shader->Bind();
-		Bolt::Renderer::Submit(m_Shader, m_VA);
+		std::dynamic_pointer_cast<Bolt::OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
+		m_CheckerTex->Bind(0);
+		Bolt::Renderer::Submit(m_Shader, m_VA, transform);
+		m_HectorTex->Bind(0);
+		Bolt::Renderer::Submit(m_Shader, m_VA, transform);
+
 		Bolt::Renderer::EndScene();
 	}
-
-	void MoveCamera() {
-		glm::vec3 translation = glm::vec3(0.0f);
-		float rotation = 0.0f;
-
-		if (Bolt::Input::IsKeyPressed(Bolt::Key::W)) translation.y += -0.1f;
-		if (Bolt::Input::IsKeyPressed(Bolt::Key::A)) translation.x +=  0.1f;
-		if (Bolt::Input::IsKeyPressed(Bolt::Key::S)) translation.y +=  0.1f;
-		if (Bolt::Input::IsKeyPressed(Bolt::Key::D)) translation.x += -0.1f;
-		if (Bolt::Input::IsKeyPressed(Bolt::Key::Space)) rotation +=   5.0f;
-
-		m_Camera.SetPosition(m_Camera.GetPosition() + translation);
-		m_Camera.SetRotation(m_Camera.GetRotation() + rotation);
-	}
-
-private:
-	std::shared_ptr<Bolt::VertexArray> m_VA;
-	std::shared_ptr<Bolt::Shader> m_Shader;
-	Bolt::OrthographicCamera m_Camera;
 };
 
 class Sandbox : public Bolt::Application {

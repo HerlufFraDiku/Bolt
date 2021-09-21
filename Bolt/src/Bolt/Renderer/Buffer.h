@@ -105,7 +105,7 @@ namespace Bolt {
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
-		static VertexBuffer* Create(float* vertices, uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
 
 	};
 
@@ -117,7 +117,7 @@ namespace Bolt {
 		virtual void Unbind() = 0;
 		virtual uint32_t GetCount() = 0;
 
-		static IndexBuffer* Create(uint32_t* indicies, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t* indicies, uint32_t count);
 	};
 
 }

@@ -2,6 +2,7 @@
 
 #include "Bolt/Core.h"
 #include "Bolt/Events/Event.h"
+#include "Bolt/Core/Timestep.h"
 
 namespace Bolt {
 	class Layer {
@@ -11,7 +12,7 @@ namespace Bolt {
 
 		virtual void OnAttach();
 		virtual void OnDetach();
-		virtual void OnUpdate();
+		virtual void OnUpdate(Timestep deltaTime);
 		virtual void OnImGuiRender();
 		virtual void OnEvent(Event& event);
 

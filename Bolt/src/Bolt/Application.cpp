@@ -4,6 +4,8 @@
 #include "Bolt/Renderer/Renderer.h"
 #include "Bolt/Renderer/RenderCommand.h"
 
+#include <GLFW/glfw3.h>
+
 namespace Bolt {
 	Application* Application::s_Instance = nullptr;
 
@@ -14,6 +16,8 @@ namespace Bolt {
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_FN(Application::OnEvent));
 
+		Renderer::Init();
+
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}
@@ -22,9 +26,13 @@ namespace Bolt {
 
 	void Application::Run() {
 		while (m_Running) {
+			float time = (float)glfwGetTime(); // TODO: Platform::GetTime
+			Timestep deltaTime = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			// Update each layer
 			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate();
+				layer->OnUpdate(deltaTime);
 			}
 
 			// Update each GUI overlay
