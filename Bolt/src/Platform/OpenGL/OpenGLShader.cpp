@@ -14,13 +14,13 @@ namespace Bolt {
 		return GL_NONE;
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& filepath) {
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& filepath): m_Name(name) {
 		std::string fileData = ReadFile(filepath);
 		auto shaderSources = Preprocess(fileData);
 		Compile(shaderSources);
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc) {
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc): m_Name(name) {
 		ShaderMap shaderSources(2);
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
 		shaderSources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -29,7 +29,7 @@ namespace Bolt {
 
 	const std::string OpenGLShader::ReadFile(const std::string filepath) {
 		std::string result; 
-		std::ifstream in(filepath, std::ios::in, std::ios::binary);
+		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 
 		if (!in) {
 			BL_CORE_ERROR("Could not open file '{0}'", filepath);
@@ -77,8 +77,10 @@ namespace Bolt {
 	void OpenGLShader::Compile(const ShaderMap& shaderMap) {
 		uint32_t programID = glCreateProgram();
 
+		BL_CORE_ASSERT(shaderMap <= 2, "Extra shader detected")
 		// Compile each shader in shader map
-		std::vector<GLenum> ids(shaderMap.size()); 
+		std::array<GLenum, 2> ids; 
+		int index = 0;
 		for ( auto vk : shaderMap ) {
 			auto type = vk.first;
 			auto source = vk.second;
@@ -103,7 +105,7 @@ namespace Bolt {
 				break;
 			}
 
-			ids.push_back(shader);
+			ids[index++] = shader;
 			glAttachShader(programID, shader);
 		}
 

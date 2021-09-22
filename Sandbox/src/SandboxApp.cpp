@@ -17,7 +17,7 @@ uint32_t indicies[6] = { 0, 1, 2, 2, 3, 0 };
 class ExampleLayer : public Bolt::Layer {
 private:
 	Bolt::Ref<Bolt::VertexArray> m_VA;
-	Bolt::Ref<Bolt::Shader> m_Shader;
+	Bolt::ShaderLibrary m_ShaderLib;
 	Bolt::Ref<Bolt::Texture2D> m_CheckerTex, m_HectorTex;
 	Bolt::OrthographicCamera m_Camera;
 
@@ -25,8 +25,9 @@ public:
 	ExampleLayer() 
 		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f) 
 	{
+		m_ShaderLib.Load("assets/shaders/TextureShader.glsl");
+
 		// Load assets
-		m_Shader = Bolt::Shader::Create("assets/shaders/TextureShader.glsl");
 		m_CheckerTex = Bolt::Texture2D::Create("assets/textures/checkerboard.png");
 		m_HectorTex = Bolt::Texture2D::Create("assets/textures/hector-large.png");
 
@@ -54,12 +55,13 @@ public:
 
 		Bolt::Renderer::BeginScene(m_Camera);
 
-		m_Shader->Bind();
-		std::dynamic_pointer_cast<Bolt::OpenGLShader>(m_Shader)->UploadUniformInt("u_Texture", 0);
+		auto shader = m_ShaderLib.Get("TextureShader");
+		shader->Bind();
+		std::dynamic_pointer_cast<Bolt::OpenGLShader>(shader)->UploadUniformInt("u_Texture", 0);
 		m_CheckerTex->Bind(0);
-		Bolt::Renderer::Submit(m_Shader, m_VA, transform);
+		Bolt::Renderer::Submit(shader, m_VA, transform);
 		m_HectorTex->Bind(0);
-		Bolt::Renderer::Submit(m_Shader, m_VA, transform);
+		Bolt::Renderer::Submit(shader, m_VA, transform);
 
 		Bolt::Renderer::EndScene();
 	}
