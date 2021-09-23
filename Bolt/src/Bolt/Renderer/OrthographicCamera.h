@@ -1,5 +1,4 @@
 #pragma once
-
 #include <glm/glm.hpp>
 
 namespace Bolt {
@@ -7,14 +6,16 @@ namespace Bolt {
 	public:
 		OrthographicCamera(float left, float right, float top, float bottom);
 
-		const glm::mat4& GetViewMatrix() { return m_ViewMatrix; }
-		const glm::mat4& GetVProjectionMatrix() { return m_ProjectionMatrix; }
-		const glm::mat4& GetViewProjectionMatrix() { return m_ViewProjectionMatrix; }
+		const glm::mat4& GetViewMatrix() const  { return m_ViewMatrix; }
+		const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
+		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 
-		const glm::vec3& GetPosition() { return m_Position; }
+		void UpdateProjection(float left, float right, float top, float bottom);
+
+		const glm::vec3& GetPosition() const { return m_Position; }
 		void SetPosition(const glm::vec3& position) { m_Position = position; RecalculateViewProjectionMatrix(); }
 
-		float GetRotation() { return m_Rotation; }
+		float GetRotation() const { return m_Rotation; }
 		void SetRotation(float degrees) { m_Rotation = degrees; RecalculateViewProjectionMatrix(); }
 
 	private:

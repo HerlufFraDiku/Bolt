@@ -1,7 +1,5 @@
 #pragma once
-
-#include "Bolt/Layer.h"
-
+#include "Bolt/Core/Layer.h"
 #include "Bolt/Events/ApplicationEvent.h"
 #include "Bolt/Events/KeyEvent.h"
 #include "Bolt/Events/MouseEvent.h"

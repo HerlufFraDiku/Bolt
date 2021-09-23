@@ -1,6 +1,5 @@
 #include "blpch.h"
-#include "Renderer.h"
-
+#include "Bolt/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Bolt {
@@ -10,6 +9,10 @@ namespace Bolt {
 		RenderCommand::Init();
 	}
 
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height) {
+		RenderCommand::SetViewport(0, 0, width, height);
+	}
+
 	void Renderer::BeginScene(OrthographicCamera& camera) {
 		s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
@@ -17,12 +20,13 @@ namespace Bolt {
 	void Renderer::EndScene() { }
 
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform) {
+		BL_PROFILE_FUNCTION();
+
 		vertexArray->Bind();
 
-		// Upload view projection matrix to the shader
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
+		shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+		shader->SetMat4("u_Transform", transform);
 
 		RenderCommand::DrawIndexed(vertexArray);
 	}

@@ -7,7 +7,7 @@ namespace Bolt {
 	Ref<VertexArray> VertexArray::Create() {
 		switch (Renderer::GetApi()) {
 			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-			case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexArray>();
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLVertexArray>();
 		}
 
 		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");

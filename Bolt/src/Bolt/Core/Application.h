@@ -1,12 +1,11 @@
 #pragma once
-
-#include "Bolt/Core.h"
-#include "Bolt/Window.h"
-#include "Bolt/LayerStack.h"
+#include "Bolt/Core/Core.h"
+#include "Bolt/Core/Window.h"
+#include "Bolt/Core/LayerStack.h"
+#include "Bolt/Core/Timestep.h"
 #include "Bolt/Events/Event.h"
 #include "Bolt/Events/ApplicationEvent.h"
 #include "Bolt/ImGui/ImGuiLayer.h"
-#include "Bolt/Core/Timestep.h"
 #include "Bolt/Renderer/Shader.h"
 #include "Bolt/Renderer/Buffer.h"
 #include "Bolt/Renderer/VertexArray.h"
@@ -27,11 +26,14 @@ namespace Bolt {
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& event);
+		bool Application::OnWindowResize(WindowResizeEvent& event);
 
+	private:
 		static Application* s_Instance;
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 
 		bool m_Running = true;
+		bool m_Minimized = false;
 		float m_LastFrameTime = 0.0f;
 
 		LayerStack m_LayerStack;

@@ -1,8 +1,6 @@
 #pragma once
-
-#include "Bolt/Window.h"
+#include "Bolt/Core/Window.h"
 #include "Bolt/Renderer/GraphicsContext.h"
-
 #include <GLFW/glfw3.h>
 
 namespace Bolt {

@@ -1,11 +1,9 @@
 #include "blpch.h"
-#include "WindowsWindow.h"
-
+#include "Platform/Windows/WindowsWindow.h"
+#include "Platform/OpenGL/OpenGlContext.h"
 #include "Bolt/Events/ApplicationEvent.h"
 #include "Bolt/Events/KeyEvent.h"
 #include "Bolt/Events/MouseEvent.h"
-
-#include "Platform/OpenGL/OpenGlContext.h"
 
 namespace Bolt {
 	static bool s_GLFWInitialized = false;
@@ -14,8 +12,8 @@ namespace Bolt {
 		BL_CORE_ERROR("GLFW error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props) {
-		return new WindowsWindow(props);
+	Scope<Window> Window::Create(const WindowProps& props) {
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props) {
@@ -27,6 +25,8 @@ namespace Bolt {
 	}
 
 	void WindowsWindow::Init(const WindowProps& props) {
+		BL_PROFILE_FUNCTION();
+
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
@@ -120,15 +120,21 @@ namespace Bolt {
 	}
 
 	void WindowsWindow::Shutdown() {
+		BL_PROFILE_FUNCTION();
+
 		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::OnUpdate() {
+		BL_PROFILE_FUNCTION();
+
 		glfwPollEvents();
 		m_Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled) {
+		BL_PROFILE_FUNCTION();
+
 		glfwSwapInterval(enabled ? 1 : 0);
 		m_Data.VSync = enabled;
 	}

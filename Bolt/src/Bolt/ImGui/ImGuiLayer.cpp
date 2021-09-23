@@ -1,11 +1,9 @@
 #include "blpch.h"
-#include "ImGuiLayer.h"
-
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
-
-#include "Bolt/Application.h"
+#include "Bolt/ImGui/ImGuiLayer.h"
+#include "Bolt/Core/Application.h"
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
@@ -89,7 +87,7 @@ namespace Bolt {
 	void ImGuiLayer::OnImGuiRender()
 	{
 		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		//ImGui::ShowDemoWindow(&show);
 	}
 
 }

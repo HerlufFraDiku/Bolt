@@ -1,9 +1,7 @@
 #pragma once
-
-#include "Bolt/Core.h"
-#include "Layer.h"
-
 #include <vector>
+#include "Bolt/Core/Core.h"
+#include "Bolt/Core/Layer.h"
 
 namespace Bolt {
 	class LayerStack {

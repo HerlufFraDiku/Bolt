@@ -1,6 +1,5 @@
 #include "blpch.h"
-#include "OpenGLVertexArray.h"
-
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 #include <glad/glad.h>
 
 namespace Bolt {
@@ -28,19 +27,26 @@ namespace Bolt {
 	}
 
 	OpenGLVertexArray::OpenGLVertexArray() {
+		BL_PROFILE_FUNCTION();
+
 		glGenVertexArrays(1, &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() {
+		BL_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 	}
 
 	void OpenGLVertexArray::Unbind() {
-		glBindVertexArray(0);
+		BL_PROFILE_FUNCTION();
 
+		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
+		BL_PROFILE_FUNCTION();
+
 		BL_CORE_ASSERT(vertexBuffer->GetLayout()->GetSize(), "VertexBuffer has no layout");
 		
 		glBindVertexArray(m_RendererID);
@@ -65,6 +71,8 @@ namespace Bolt {
 	}
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) {
+		BL_PROFILE_FUNCTION();
+
 		glBindVertexArray(m_RendererID);
 		indexBuffer->Bind();
 		m_IndexBuffer = indexBuffer;

@@ -1,8 +1,7 @@
 #include "blpch.h"
-#include "OpenGlContext.h"
-
 #include <GLFW/glfw3.h>
 #include <Glad/glad.h>
+#include "Platform/OpenGL/OpenGlContext.h"
 
 namespace Bolt {
 	OpenGLContext::OpenGLContext(GLFWwindow* window) : m_Window(window) {
@@ -10,6 +9,8 @@ namespace Bolt {
 	}
 
 	void OpenGLContext::Init() {
+		BL_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_Window);
 		int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BL_CORE_ASSERT(gladStatus, "Failed to initialize Glad!");
@@ -21,6 +22,8 @@ namespace Bolt {
 	}
 
 	void OpenGLContext::SwapBuffers() {
+		BL_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_Window);
 	}
 }

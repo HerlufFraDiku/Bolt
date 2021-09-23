@@ -1,11 +1,13 @@
 #include "blpch.h"
-#include "Bolt/Log.h"
+#include "Bolt/Core/Log.h"
 
 namespace Bolt {
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
 	void Log::Init() {
+		BL_PROFILE_FUNCTION();
+
 		// set pattern to: Timestamp loggername message
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 

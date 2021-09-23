@@ -1,6 +1,6 @@
 #pragma once
 #include "blpch.h"
-#include "Bolt/Core.h"
+#include "Bolt/Core/Core.h"
 
 namespace Bolt {
 	// Events in Bolt are currently blocking. This means that once an event occurs

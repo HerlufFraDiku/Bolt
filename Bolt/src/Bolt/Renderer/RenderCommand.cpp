@@ -1,6 +1,5 @@
 #include "blpch.h"
 #include "Bolt/Renderer/RenderCommand.h"
-
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 
 namespace Bolt {

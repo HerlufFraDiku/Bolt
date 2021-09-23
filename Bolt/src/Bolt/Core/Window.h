@@ -1,7 +1,5 @@
 #pragma once
-
-#include "blpch.h"
-#include "Bolt/Core.h"
+#include "Bolt/Core/Core.h"
 #include "Bolt/Events/Event.h"
 
 namespace Bolt {
@@ -34,6 +32,6 @@ namespace Bolt {
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	};
 }

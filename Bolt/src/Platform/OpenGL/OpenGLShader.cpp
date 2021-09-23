@@ -1,9 +1,8 @@
 #include "blpch.h"
-#include "OpenGLShader.h"
-
 #include <fstream>
 #include <Glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Bolt {
 	static GLenum ShaderTypeFromString(const std::string& type) {
@@ -15,12 +14,16 @@ namespace Bolt {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& filepath): m_Name(name) {
+		BL_PROFILE_FUNCTION();
+
 		std::string fileData = ReadFile(filepath);
 		auto shaderSources = Preprocess(fileData);
 		Compile(shaderSources);
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc): m_Name(name) {
+		BL_PROFILE_FUNCTION();
+
 		ShaderMap shaderSources(2);
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
 		shaderSources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -28,6 +31,8 @@ namespace Bolt {
 	}
 
 	const std::string OpenGLShader::ReadFile(const std::string filepath) {
+		BL_PROFILE_FUNCTION();
+
 		std::string result; 
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
 
@@ -49,6 +54,8 @@ namespace Bolt {
 	}
 
 	ShaderMap OpenGLShader::Preprocess(const std::string& source) {
+		BL_PROFILE_FUNCTION();
+
 		ShaderMap shaderMap;
 
 		const char* token = "#type";
@@ -75,6 +82,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::Compile(const ShaderMap& shaderMap) {
+		BL_PROFILE_FUNCTION();
+
 		uint32_t programID = glCreateProgram();
 
 		BL_CORE_ASSERT(shaderMap <= 2, "Extra shader detected")
@@ -134,18 +143,54 @@ namespace Bolt {
 	}
 
 	OpenGLShader::~OpenGLShader() {
+		BL_PROFILE_FUNCTION();
+
 		glDeleteProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Bind() const {
+		BL_PROFILE_FUNCTION();
+
 		glUseProgram(m_RendererID);
 	}
 
 	void OpenGLShader::Unbind() const {
+		BL_PROFILE_FUNCTION();
+
 		glUseProgram(0);
 	}
 
+	void OpenGLShader::SetInt(const std::string& name, int value) const {
+		UploadUniformInt(name, value);
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, float value) const {
+		UploadUniformFloat(name, value);
+	}
+
+	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& vector) const {
+		UploadUniformFloat2(name, vector);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& vector) const {
+		UploadUniformFloat3(name, vector);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& vector) const {
+		UploadUniformFloat4(name, vector);
+	}
+
+	void OpenGLShader::SetMat3(const std::string& name, const glm::mat3& matrix) const {
+		UploadUniformMat3(name, matrix);
+	}
+
+	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix) const {
+		UploadUniformMat4(name, matrix);
+	}
+
 	void OpenGLShader::UploadUniformInt(const std::string& name, int value) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 
@@ -153,6 +198,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::UploadUniformFloat(const std::string& name, float value) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 
@@ -160,6 +207,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& vector) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 
@@ -167,6 +216,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& vector) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 
@@ -174,6 +225,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& vector) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 
@@ -181,6 +234,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 
@@ -188,6 +243,8 @@ namespace Bolt {
 	}
 
 	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix) const {
+		BL_PROFILE_FUNCTION();
+
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
 

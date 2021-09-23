@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Bolt/Renderer/GraphicsContext.h"
 
 struct GLFWwindow;

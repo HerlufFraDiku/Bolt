@@ -1,8 +1,7 @@
 #pragma once
-
-#include "Bolt/Core.h"
-#include "Bolt/Events/Event.h"
+#include "Bolt/Core/Core.h"
 #include "Bolt/Core/Timestep.h"
+#include "Bolt/Events/Event.h"
 
 namespace Bolt {
 	class Layer {
