@@ -1,11 +1,14 @@
 #pragma once
+#include <Glad/glad.h>
 #include "Bolt/Renderer/Buffer.h"
 
 namespace Bolt {
 	class OpenGLVertexBuffer : public VertexBuffer {
 	public:
-		OpenGLVertexBuffer(float* vertices, uint32_t size);
+		OpenGLVertexBuffer(BLenum drawMode, uint32_t size, float* vertices = nullptr);
 		virtual ~OpenGLVertexBuffer();
+
+		virtual void Load(uint32_t size, void* verticies) override;
 		virtual void Bind() override;
 		virtual void Unbind() override;
 
@@ -15,18 +18,23 @@ namespace Bolt {
 	private:
 		uint32_t m_RendererID;
 		BufferLayout m_Layout;
+		uint32_t m_Size;
+		GLenum m_DrawMode;
 	};
 
 	class OpenGLIndexBuffer : public IndexBuffer {
 	public:
-		OpenGLIndexBuffer(uint32_t* indicies, uint32_t count);
+		OpenGLIndexBuffer(BLenum drawmode, uint32_t size, uint32_t* indicies = nullptr);
 		virtual ~OpenGLIndexBuffer();
+
+		virtual void Load(uint32_t size, void* indicies) override;
 		virtual void Bind() override;
 		virtual void Unbind() override;
-		virtual inline uint32_t GetCount() override { return m_Count; }
+		virtual inline uint32_t GetCount() override { return m_Size / sizeof(uint32_t); }
 
 	private:
 		uint32_t m_RendererID;
-		uint32_t m_Count = 0;
+		uint32_t m_Size;
+		GLenum m_DrawMode;
 	};
 }

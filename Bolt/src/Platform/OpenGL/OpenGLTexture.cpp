@@ -28,7 +28,7 @@ namespace Bolt {
 		stbi_image_free(data); // free the image on the CPU
 	}
 
-	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height): m_Width(width), m_Height(height) {
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height): m_Width(width), m_Height(height), m_Slot(0) {
 		BL_PROFILE_FUNCTION();
 
 		m_InternalFormat = GL_RGBA8; 
@@ -53,9 +53,14 @@ namespace Bolt {
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 	}
 
-	void OpenGLTexture2D::Bind(uint32_t slot) const {
+	void OpenGLTexture2D::Bind(uint32_t slot) {
 		BL_PROFILE_FUNCTION();
 
 		glBindTextureUnit(slot, m_RendererID);
+		m_Slot = slot;
+	}
+
+	uint32_t OpenGLTexture2D::GetSlot() const {
+		return m_Slot;
 	}
 }

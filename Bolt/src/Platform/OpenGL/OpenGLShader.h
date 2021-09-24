@@ -19,6 +19,7 @@ namespace Bolt {
 		virtual const std::string& GetName() const override { return m_Name; }
 
 		virtual void SetInt(const std::string& name, int value) const override;
+		virtual void SetIntVector(const std::string& name, const uint32_t count, const int* value) const override;
 		virtual void SetFloat(const std::string& name, float value) const override;
 		virtual void SetFloat2(const std::string& name, const glm::vec2& vector) const override;
 		virtual void SetFloat3(const std::string& name, const glm::vec3& vector) const override;
@@ -27,6 +28,7 @@ namespace Bolt {
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) const override;
 
 		void UploadUniformInt(const std::string& name, int value) const;
+		void UploadUniformIntVector(const std::string& name, const uint32_t count, const int* value) const;
 		void UploadUniformFloat(const std::string& name, float value) const;
 		void UploadUniformFloat2(const std::string& name, const glm::vec2& vector) const;
 		void UploadUniformFloat3(const std::string& name, const glm::vec3& vector) const;

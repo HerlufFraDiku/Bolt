@@ -202,7 +202,7 @@ namespace Bolt {
 	}
 }
 
-#define BL_PROFILE 0
+#define BL_PROFILE 1
 #if BL_PROFILE
 // Resolve which function signature macro will be used. Note that this only
 // is resolved when the (pre)compiler starts, so the syntax highlighting

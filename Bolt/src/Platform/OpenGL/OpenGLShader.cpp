@@ -164,6 +164,10 @@ namespace Bolt {
 		UploadUniformInt(name, value);
 	}
 
+	void OpenGLShader::SetIntVector(const std::string& name, const uint32_t count, const int* vector) const {
+		UploadUniformIntVector(name, count, vector);
+	}
+
 	void OpenGLShader::SetFloat(const std::string& name, float value) const {
 		UploadUniformFloat(name, value);
 	}
@@ -186,6 +190,15 @@ namespace Bolt {
 
 	void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& matrix) const {
 		UploadUniformMat4(name, matrix);
+	}
+
+	void OpenGLShader::UploadUniformIntVector(const std::string& name, const uint32_t count, const int* vector) const {
+		BL_PROFILE_FUNCTION();
+
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		BL_CORE_ASSERT(location != -1, "Uniform location not found. Is the uniform declared in the shader?");
+
+		glUniform1iv(location, count, vector);
 	}
 
 	void OpenGLShader::UploadUniformInt(const std::string& name, int value) const {

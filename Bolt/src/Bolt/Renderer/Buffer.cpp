@@ -4,10 +4,10 @@
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 namespace Bolt {
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size) {
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size, float* verticies) {
 		switch (Renderer::GetApi()) {
 			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-			case RendererAPI::API::OpenGL: return CreateRef<OpenGLVertexBuffer>(vertices, size);
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLVertexBuffer>(BL_STATIC, size, verticies);
 
 		}
 
@@ -15,10 +15,30 @@ namespace Bolt {
 		return nullptr;
 	}
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indicies, uint32_t count) {
+	Ref<VertexBuffer> VertexBuffer::CreateDynamic(uint32_t size, float* verticies) {
 		switch (Renderer::GetApi()) {
 			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
-			case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(indicies, count);
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLVertexBuffer>(BL_DYNAMIC, size, verticies);
+		}
+
+		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");
+		return nullptr;
+	}
+
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t size, uint32_t* indicies) {
+		switch (Renderer::GetApi()) {
+			case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
+			case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(BL_STATIC, size, indicies);
+		}
+
+		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");
+		return nullptr;
+	}
+
+	Ref<IndexBuffer> IndexBuffer::CreateDynamic(uint32_t size, uint32_t* indicies) {
+		switch (Renderer::GetApi()) {
+		case RendererAPI::API::None: BL_CORE_ASSERT(false, "RendererAPI::None is not supported"); return nullptr;
+		case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(BL_DYNAMIC, size);
 		}
 
 		BL_CORE_ASSERT(false, "Unknown RendererAPI is not supported");

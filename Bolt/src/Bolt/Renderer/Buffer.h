@@ -35,8 +35,7 @@ namespace Bolt {
 		int32_t Size;
 		int32_t Offset;
 
-		BufferElement() {}
-
+		BufferElement(): Name("BufferElement"), Type(Bolt::ShaderElementType::None), Normalized(false), Size(0), Offset(0) {}
 		BufferElement(ShaderElementType type, const std::string name, bool normalized = false) : Name(name), Type(type), Size(ShaderElementTypeSize(type)), Offset(0), Normalized(normalized) {}
 
 		uint32_t GetComponentCount() {
@@ -99,25 +98,28 @@ namespace Bolt {
 	public:
 		virtual ~VertexBuffer() {};
 
+		virtual void Load(uint32_t size, void* verticies) = 0;
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
-		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
-
+		static Ref<VertexBuffer> Create(uint32_t size, float* vertices = nullptr);
+		static Ref<VertexBuffer> CreateDynamic(uint32_t size, float* vertices = nullptr);
 	};
 
 	class IndexBuffer {
 	public:
 		virtual ~IndexBuffer() {};
 
+		virtual void Load(uint32_t size, void* indicies) = 0;
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 		virtual uint32_t GetCount() = 0;
 
-		static Ref<IndexBuffer> Create(uint32_t* indicies, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t size, uint32_t* indicies = nullptr);
+		static Ref<IndexBuffer> CreateDynamic(uint32_t size, uint32_t* indicies = nullptr);
 	};
 
 }

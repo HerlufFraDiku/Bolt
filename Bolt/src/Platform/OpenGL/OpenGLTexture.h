@@ -14,11 +14,11 @@ namespace Bolt {
 
 		virtual void SetData(void* data, uint32_t size) override;
 
-
-		virtual void Bind(uint32_t slot = 0) const override;
+		virtual void Bind(uint32_t slot = 0) override;
+		virtual uint32_t GetSlot() const override;
 
 	private:
-		uint32_t m_RendererID, m_Width, m_Height;
+		uint32_t m_RendererID, m_Width, m_Height, m_Slot;
 		GLenum m_InternalFormat, m_DataFormat;
 	};
 }

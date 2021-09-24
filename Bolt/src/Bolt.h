@@ -14,6 +14,7 @@
 //---- REDERER ------------------------------
 #include "Bolt/Renderer/Renderer.h"
 #include "Bolt/Renderer/Renderer2D.h"
+#include "Bolt/Renderer/Batcher2D.h"
 #include "Bolt/Renderer/RenderCommand.h"
 #include "Bolt/Renderer/VertexArray.h"
 #include "Bolt/Renderer/Buffer.h"

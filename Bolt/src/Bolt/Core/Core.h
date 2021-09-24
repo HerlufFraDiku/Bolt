@@ -39,3 +39,7 @@ namespace Bolt {
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
 }
+
+typedef uint32_t BLenum;
+#define BL_STATIC 0
+#define BL_DYNAMIC 1

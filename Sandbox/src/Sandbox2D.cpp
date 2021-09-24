@@ -4,10 +4,11 @@
 
 Sandbox2D::Sandbox2D() :
 	Bolt::Layer("Sandbox2D"),
-	m_CameraController(1280.0f / 720.0f), 
+	m_CameraController(1280.0f / 720.0f),
 	m_FPSCounter(),
 	m_CheckerTex(Bolt::Texture2D::Create("assets/textures/checkerboard.png")),
-	m_QuadColor(glm::vec4(0.3f, 0.3f, 0.8f, 1.0f))
+	m_QuadColor(glm::vec4(0.3f, 0.3f, 0.8f, 1.0f)),
+	m_Batch(100000)
 {}
 
 void Sandbox2D::OnUpdate(Bolt::Timestep dt) {
@@ -18,17 +19,21 @@ void Sandbox2D::OnUpdate(Bolt::Timestep dt) {
 	Bolt::RenderCommand::Clear();
 
 	Bolt::Renderer2D::BeginScene(m_CameraController.GetCamera());
-	
-	for (int x = 0; x < 100; x++) {
-		for (int y = 0; y < 100; y++) {
-			Bolt::Renderer2D::DrawQuad(
-				Bolt::Quad(
-					glm::vec2(x * 0.11f - 5.5f, y * 0.11f - 5.5f), // Position
-					glm::vec2(0.1f),							   // Size
-					m_QuadColor									   // Color
-				));
+	{
+		BL_PROFILE_SCOPE("For loop QUADS");
+		for (int x = 0; x < 100; x++) {
+			for (int y = 0; y < 100; y++) {
+				m_Batch.AddQuad(
+					Bolt::Quad(
+						glm::vec2(x * 0.11f - 5.5f, y * 0.11f - 5.5f), // Position
+						glm::vec2(0.1f),							   // Size
+						m_QuadColor									   // Color
+					));
+			}
 		}
 	}
+
+	m_Batch.Flush();
 
 	Bolt::Renderer2D::EndScene();
 }
