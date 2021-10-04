@@ -10,6 +10,8 @@ namespace Bolt {
 		OrthographicCameraController(float aspectRatio, bool canRotate = false);
 		void OnUpdate(Timestep dt);
 		void OnEvent(Event& event);
+		void Resize(float aspectRatio);
+
 		OrthographicCamera& GetCamera() { return m_Camera; }
 
 	private: 

@@ -17,6 +17,10 @@ namespace Bolt {
 		virtual void Bind(uint32_t slot = 0) override;
 		virtual uint32_t GetSlot() const override;
 
+		virtual bool operator==(const Texture& other) const override {
+			return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
+		}
+
 	private:
 		uint32_t m_RendererID, m_Width, m_Height, m_Slot;
 		GLenum m_InternalFormat, m_DataFormat;

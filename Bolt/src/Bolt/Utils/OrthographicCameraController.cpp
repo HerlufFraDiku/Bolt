@@ -36,6 +36,11 @@ namespace Bolt {
 		dispatcher.Dispatch<MouseScrolledEvent>(BIND_FN(OrthographicCameraController::OnMouseScrolled));
 	}
 
+	void OrthographicCameraController::Resize(float aspectRatio) {
+		m_AspectRatio = aspectRatio;
+		m_Camera.UpdateProjection(-m_AspectRatio * m_Zoom, m_AspectRatio * m_Zoom, -m_Zoom, m_Zoom);
+	}
+
 
 	// Recompute aspectRatio on resize and update camera projection accordingly
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& event) {

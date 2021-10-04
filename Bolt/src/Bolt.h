@@ -11,12 +11,18 @@
 #include "Bolt/Core/MouseCodes.h"
 //-------------------------------------------
 
+//---- SCENE --------------------------------
+#include "Bolt/Scene/Scene.h"
+#include "Bolt/Scene/Entity.h"
+#include "Bolt/Scene/Components.h"
+//-------------------------------------------
+
 //---- REDERER ------------------------------
 #include "Bolt/Renderer/Renderer.h"
 #include "Bolt/Renderer/Renderer2D.h"
-#include "Bolt/Renderer/Batcher2D.h"
 #include "Bolt/Renderer/RenderCommand.h"
 #include "Bolt/Renderer/VertexArray.h"
+#include "Bolt/Renderer/Framebuffer.h"
 #include "Bolt/Renderer/Buffer.h"
 #include "Bolt/Renderer/Shader.h"
 #include "Bolt/Renderer/Texture.h"

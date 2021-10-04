@@ -13,6 +13,5 @@ private:
 	Bolt::Ref<Bolt::Texture2D> m_CheckerTex;
 	Bolt::OrthographicCameraController m_CameraController;
 	Bolt::FPSCounter m_FPSCounter;
-	Bolt::Batch2D m_Batch;
 };
 

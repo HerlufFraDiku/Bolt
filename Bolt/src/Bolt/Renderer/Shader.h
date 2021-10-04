@@ -11,7 +11,7 @@ namespace Bolt {
 		virtual void Unbind() const = 0;
 
 		virtual void SetInt(const std::string& name, int value) const = 0;
-		virtual void SetIntVector(const std::string& name, const uint32_t count, const int* value) const = 0;
+		virtual void SetInts(const std::string& name, const uint32_t count, const int* value) const = 0;
 		virtual void SetFloat(const std::string& name, float value) const = 0;
 		virtual void SetFloat2(const std::string& name, const glm::vec2& vector) const = 0;
 		virtual void SetFloat3(const std::string& name, const glm::vec3& vector) const = 0;

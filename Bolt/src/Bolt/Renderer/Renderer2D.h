@@ -4,7 +4,6 @@
 #include "Bolt/Renderer/Texture.h"
 
 namespace Bolt {
-
 	struct Quad {
 		glm::vec3 Position = glm::vec3(0.0f, 0.0f, 0.0f);
 		glm::vec2 Size = glm::vec2(1.0f, 1.0f);
@@ -38,15 +37,29 @@ namespace Bolt {
 		Quad(glm::vec3 position, glm::vec2 size, float rotation, Ref<Texture2D> texture, glm::vec4 color) : Position(position), Size(size), Rotation(rotation), Tint(color), Texture(texture) {}
 	};
 
+	struct RenderStats {
+		int DrawCount = 0;
+		int QuadCount = 0;
+		int VertexCount() { return QuadCount * 4; }
+		int IndexCount()  { return QuadCount * 6; }
+	};
+
 	class Renderer2D {
 	public:
 		static void Init();
 		static void Shutdown();
 
 		static void BeginScene(const OrthographicCamera& camera);
+		static void Flush();
 		static void EndScene();
 
 		static void DrawQuad(const Quad& quad);
+		static void ResetStats();
+		static RenderStats GetStats();
+
+	private:
+		static float GetTextureIndex(const Quad& quad);
+		static void NewBatch();
 	};
 }
 

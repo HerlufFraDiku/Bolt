@@ -1,13 +1,12 @@
 #include "blpch.h"
-#include "Platform/Windows/WindowsInput.h"
+#include "Bolt/Core/Input.h"
 #include "Bolt/Core/Application.h"
 #include <GLFW/glfw3.h>
 
+#ifdef BL_PLATFORM_WINDOWS
 namespace Bolt {
 
-	Input* Input::s_Instance = new WindowsInput();
-
-	bool WindowsInput::IsKeyPressedImpl(KeyCode keycode) {
+	bool Input::IsKeyPressed(KeyCode keycode) {
 		BL_PROFILE_FUNCTION();
 
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
@@ -16,7 +15,7 @@ namespace Bolt {
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(MouseCode button) {
+	bool Input::IsMouseButtonPressed(MouseCode button) {
 		BL_PROFILE_FUNCTION();
 
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
@@ -24,21 +23,21 @@ namespace Bolt {
 		return state == GLFW_PRESS;
 	}
 
-	float WindowsInput::GetMouseXImpl() {
+	float Input::GetMouseX() {
 		BL_PROFILE_FUNCTION();
 
 		auto [x, y] = GetMousePosition();
 		return x;
 	}
 
-	float WindowsInput::GetMouseYImpl() {
+	float Input::GetMouseY() {
 		BL_PROFILE_FUNCTION();
 
 		auto [x, y] = GetMousePosition();
 		return y;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl() {
+	std::pair<float, float> Input::GetMousePosition() {
 		BL_PROFILE_FUNCTION();
 
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
@@ -47,3 +46,4 @@ namespace Bolt {
 		return { (float)xPos, (float)yPos };
 	}
 }
+#endif // BL_PLATFORM_WINDOWS

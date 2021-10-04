@@ -7,8 +7,7 @@ Sandbox2D::Sandbox2D() :
 	m_CameraController(1280.0f / 720.0f),
 	m_FPSCounter(),
 	m_CheckerTex(Bolt::Texture2D::Create("assets/textures/checkerboard.png")),
-	m_QuadColor(glm::vec4(0.3f, 0.3f, 0.8f, 1.0f)),
-	m_Batch(100000)
+	m_QuadColor(glm::vec4(0.3f, 0.3f, 0.8f, 1.0f))
 {}
 
 void Sandbox2D::OnUpdate(Bolt::Timestep dt) {
@@ -18,31 +17,34 @@ void Sandbox2D::OnUpdate(Bolt::Timestep dt) {
 	Bolt::RenderCommand::SetClearColor(glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
 	Bolt::RenderCommand::Clear();
 
+	Bolt::Renderer2D::ResetStats();
 	Bolt::Renderer2D::BeginScene(m_CameraController.GetCamera());
-	{
-		BL_PROFILE_SCOPE("For loop QUADS");
-		for (int x = 0; x < 100; x++) {
-			for (int y = 0; y < 100; y++) {
-				m_Batch.AddQuad(
-					Bolt::Quad(
-						glm::vec2(x * 0.11f - 5.5f, y * 0.11f - 5.5f), // Position
-						glm::vec2(0.1f),							   // Size
-						m_QuadColor									   // Color
-					));
-			}
+
+	float n = 5.0f;
+	float s = 0.5f;
+	float o = 0.05f;
+	for (float x = -n; x < n; x += s) {
+		for (float y = -n; y < n; y += s) {
+			glm::vec4 color = glm::vec4((x + n) / (2.0f * n), 0.4f, (y + n) / (2.0f * n), 1.0f);
+			Bolt::Renderer2D::DrawQuad(
+				Bolt::Quad(glm::vec2(x, y), glm::vec2(s - o), color)
+			);
 		}
 	}
-
-	m_Batch.Flush();
 
 	Bolt::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender() {
-	ImGui::Begin("Controls");
-	ImGui::Text("%.1f FPS", m_FPSCounter.FPS());
-	ImGui::ColorEdit4("QuadColor", glm::value_ptr(m_QuadColor));
-	ImGui::End();
+    ImGui::Begin("Controls");
+    ImGui::Text("%.1f FPS (%.1f ms)", m_FPSCounter.FPS(), m_FPSCounter.FrameTime());
+
+    auto Stats = Bolt::Renderer2D::GetStats();
+    ImGui::Text("RenderStats");
+    ImGui::Text("Drawcalls:\t%d", Stats.DrawCount);
+    ImGui::Text("Quads:\t%d", Stats.QuadCount);
+
+    ImGui::End();
 }
 
 void Sandbox2D::OnEvent(Bolt::Event& event) {
