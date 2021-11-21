@@ -15,34 +15,45 @@ namespace Bolt {
         m_ActiveScene = CreateRef<Scene>();
         m_Square = m_ActiveScene->CreateEntity("Square");
         m_Square.Add<SpriteRenderer>();
+
+        m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+        m_CameraEntity.Add<CameraComponent>();
     }
 
 	void EditorLayer::OnUpdate(Timestep dt) {
 		m_FPSCounter.OnUpdate(dt);
+
+        // Handle resize 
+        FramebufferSpec spec = m_Framebuffer->GetSpec();
+        bool needsResize = m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y);
+        if (needsResize) {
+            m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+            m_CameraController.Resize(m_ViewportSize.x / m_ViewportSize.y);
+            m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+        }
+
         if (m_ViewportFocused) m_CameraController.OnUpdate(dt);
         
+		Renderer2D::ResetStats();
         m_Framebuffer->Bind();
 		RenderCommand::SetClearColor(glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
 		RenderCommand::Clear();
 
-		Renderer2D::ResetStats();
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		float n = 5.0f;
-		float s = 0.5f;
-		float o = 0.05f;
-		for (float x = -n; x < n; x += s) {
-			for (float y = -n; y < n; y += s) {
-				glm::vec4 color = glm::vec4((x + n) / (2.0f * n), 0.4f, (y + n) / (2.0f * n), 1.0f);
-				Renderer2D::DrawQuad(
-					Quad(glm::vec2(x, y), glm::vec2(s - o), color)
-				);
-			}
-		}
+		//float n = 5.0f;
+		//float s = 0.5f;
+		//float o = 0.05f;
+		//for (float x = -n; x < n; x += s) {
+		//	for (float y = -n; y < n; y += s) {
+		//		glm::vec4 color = glm::vec4((x + n) / (2.0f * n), 0.4f, (y + n) / (2.0f * n), 1.0f);
+		//		Renderer2D::DrawQuad(
+		//			Quad(glm::vec2(x, y), glm::vec2(s - o), color)
+		//		);
+		//	}
+		//}
 
         m_ActiveScene->OnUpdate(dt);
 
-		Renderer2D::EndScene();
         m_Framebuffer->Unbind();
 	}
 
@@ -112,19 +123,13 @@ namespace Bolt {
         Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
         ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-        if (m_ViewportSize != *((glm::vec2*)&viewportPanelSize)) {
-            m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-            m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-
-            m_CameraController.Resize(m_ViewportSize.x / m_ViewportSize.y);
-        }
+        m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
         uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererId();
         ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2(0, 1), ImVec2(1, 0));
 
         ImGui::End();
         ImGui::PopStyleVar();
-
     }
 
 	void EditorLayer::OnEvent(Event& event) {

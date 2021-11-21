@@ -22,5 +22,7 @@ namespace Bolt {
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_Square;
+
+		Entity m_CameraEntity;
 	};
 }

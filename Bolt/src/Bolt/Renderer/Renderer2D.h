@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Bolt/Renderer/Camera.h"
 #include "Bolt/Renderer/OrthographicCamera.h"
 #include "Bolt/Renderer/Texture.h"
 
@@ -49,7 +50,8 @@ namespace Bolt {
 		static void Init();
 		static void Shutdown();
 
-		static void BeginScene(const OrthographicCamera& camera);
+		static void BeginScene(const Camera& camera, glm::mat4& transform);
+		static void BeginScene(const OrthographicCamera& camera); // TODO: remove
 		static void Flush();
 		static void EndScene();
 

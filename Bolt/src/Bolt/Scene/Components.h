@@ -7,6 +7,7 @@
 
 #include <string>
 #include "Bolt/Core/Core.h"
+#include "SceneCamera.h"
 #include "Bolt/Renderer/Texture.h"
 
 namespace Bolt {
@@ -41,5 +42,14 @@ namespace Bolt {
 		SpriteRenderer() = default;
 		SpriteRenderer(const SpriteRenderer&) = default;
 		SpriteRenderer(const glm::vec4 & color) : Color(color) {}
+	};
+
+	struct CameraComponent {
+		bool isPrimary = true;
+		bool isFixedAspectRatio = false;
+		SceneCamera Camera;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
 	};
 }

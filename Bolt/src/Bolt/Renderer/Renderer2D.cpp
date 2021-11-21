@@ -83,6 +83,19 @@ namespace Bolt {
 
 	void Renderer2D::Shutdown() { }
 
+	void Renderer2D::BeginScene(const Camera& camera, glm::mat4& transform) {
+		BL_PROFILE_FUNCTION();
+
+
+		// Bind our shader and upload camera projection to it
+		s_Data.Shader->Bind();
+		glm::mat4 viewProjection = camera.GetProjection() * glm::inverse(transform);
+		s_Data.Shader->SetMat4("u_ViewProjection", viewProjection);
+
+		// Start a new batch
+		NewBatch();
+	}
+
 	void Renderer2D::BeginScene(const OrthographicCamera& camera) {
 		BL_PROFILE_FUNCTION();
 
