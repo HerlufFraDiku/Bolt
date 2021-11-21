@@ -6,6 +6,17 @@
 
 namespace Bolt {
 	void Scene::OnUpdate(Timestep dt) {
+		// Update NativeScript's
+		m_Registry.view<NativeScript>().each([=](auto entity, NativeScript& nsc) {
+			// TODO: Move to Scene::OnPlay
+			if (!nsc.Instance) {
+				nsc.Instance = nsc.InstantiateScript();
+				nsc.Instance->m_Entity = Entity{ entity, this };
+				nsc.Instance->OnCreate();
+			}
+
+			nsc.Instance->OnUpdate(dt);
+		});
 		
 		// Find the main camera in the scene
 		Camera* mainCamera = nullptr;
@@ -51,9 +62,7 @@ namespace Bolt {
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view) {
 			auto& cameraComp = view.get<CameraComponent>(entity);
-			BL_CORE_INFO("Camera is found");
 			if (!cameraComp.isFixedAspectRatio) {
-				BL_CORE_INFO("Camera is not fixed");
 				cameraComp.Camera.SetViewportSize(width, height);
 			}
 		}

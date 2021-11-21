@@ -3,6 +3,7 @@
 #include "glm/gtc/type_ptr.hpp"
 
 namespace Bolt {
+
 	EditorLayer::EditorLayer() :
 		Layer("Bolt Editor"),
 		m_CameraController(1280.0f / 720.0f),
@@ -18,6 +19,20 @@ namespace Bolt {
 
         m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
         m_CameraEntity.Add<CameraComponent>();
+
+        class CameraController : public ScriptableEntity {
+            void OnUpdate(Timestep dt) {
+                BL_CORE_INFO("Update");
+                auto& transform = Get<Transform>();
+                float speed = 5.0f;
+                if (Input::IsKeyPressed(Key::A)) transform.Translation.x -= speed * dt;
+                if (Input::IsKeyPressed(Key::D)) transform.Translation.x += speed * dt;
+                if (Input::IsKeyPressed(Key::W)) transform.Translation.y += speed * dt;
+                if (Input::IsKeyPressed(Key::S)) transform.Translation.y -= speed * dt;
+            }
+        };
+
+        m_CameraEntity.Add<NativeScript>().Bind<CameraController>();
     }
 
 	void EditorLayer::OnUpdate(Timestep dt) {
@@ -102,7 +117,7 @@ namespace Bolt {
         ImGui::Text("Quads:\t%d", Stats.QuadCount);
 
         ImGui::Separator();
-        ImGui::Text("%s", m_Square.tag().c_str());
+        //ImGui::Text("%s", m_Square.tag().c_str());
         auto& squareColor = m_Square.Get<SpriteRenderer>().Color;
         ImGui::ColorEdit4("Square color", glm::value_ptr(squareColor));
         ImGui::Separator();

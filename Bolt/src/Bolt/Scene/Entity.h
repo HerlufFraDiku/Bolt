@@ -1,15 +1,15 @@
 #pragma once
 
 #include "Bolt/Scene/Scene.h"
-#include "Bolt/Scene/Components.h"
-
-#include <entt.hpp>
 
 namespace Bolt {
 	class Entity {
 	public:
+		virtual ~Entity() = default;
+
 		Entity() = default;
-		Entity(entt::entity handle, Scene* scene) : m_Scene(scene), m_Handle(handle) {};
+		Entity(entt::entity handle, Scene * scene);
+		Entity(const Entity & other) = default;
 
 		template<typename T>
 		bool Has() { return m_Scene->m_Registry.all_of<T>(m_Handle); }
@@ -36,9 +36,8 @@ namespace Bolt {
 		operator entt::entity() { return m_Handle; }
 		operator uint32_t() { return (uint32_t)m_Handle; }
 
-		const Transform& transform() { return Get<Transform>(); }
-		const std::string& tag() { return Get<Tag>().tag; }
-
+		//const Transform& transform() { return Get<Transform>(); }
+		//const std::string& tag() { return Get<Tag>().tag; }
 
 	private:
 		entt::entity m_Handle = entt::null;

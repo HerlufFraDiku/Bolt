@@ -14,6 +14,7 @@
 //---- SCENE --------------------------------
 #include "Bolt/Scene/Scene.h"
 #include "Bolt/Scene/Entity.h"
+#include "Bolt/Scene/ScriptableEntity.h"
 #include "Bolt/Scene/Components.h"
 //-------------------------------------------
 

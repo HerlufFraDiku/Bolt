@@ -1,7 +1,6 @@
 #pragma once
 #include <Bolt.h>
 
-
 namespace Bolt {
 	class EditorLayer : public Layer {
 	public:
